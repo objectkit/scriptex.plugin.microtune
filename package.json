@@ -1,0 +1,56 @@
+{
+  "name": "scriptex.plugin.project.template",
+  "description": "A project template for building and testing Scriptex midi processors.",
+  "version": "0.1.0",
+  "type": "module",
+  "unpkg": "./out/preset.js",
+  "main": "./out/source.js",
+  "exports": {
+    ".": "./out/source.js"
+  },
+  "scripts": {
+    "gulp": "gulp -f env/gulp/gulpfile.js",
+    "test": "mocha --config env/mocha/conf.json",
+    "pretest": "npm run gulp buildSource",
+    "lint": "npm run lint/main && npm run lint/test",
+    "lint/main": "eslint src/main/js/**/*.js -c env/eslint/conf.json",
+    "lint/test": "eslint src/test/js/**/*.js -c env/eslint/conf.json",
+    "build": "npm run gulp build",
+    "doc": "jsdoc -c env/jsdoc/conf.json -d ./doc",
+    "clean": "rm -rf out doc",
+    "watch": "npm run watch/test & npm run watch/main",
+    "watch/test": "mocha --config env/mocha/watch.json || exit 0",
+    "watch/main": "npm run gulp watch"
+  },
+  "keywords": [
+    "scripter",
+    "scriptex",
+    "midi",
+    "logic",
+    "pro",
+    "x",
+    "mainstage",
+    "plugin",
+    "plug-in",
+    "es6"
+  ],
+  "author": "David Foley <david@objectkit.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@objectkit/scriptex": "^1.0.0-rc.0",
+    "@objectkit/scriptex.mock": "^1.0.0-rc.0",
+    "@rollup/plugin-multi-entry": "4.0.0",
+    "@rollup/plugin-node-resolve": "9.0.0",
+    "@rollup/stream": "1.1.0",
+    "chai": "4.2.0",
+    "eslint": "7.11.0",
+    "gulp": "4.0.2",
+    "jsdoc": "3.6.6",
+    "mocha": "8.2.0",
+    "rollup": "2.32.0",
+    "rollup-plugin-includepaths": "git+https://github.com/dot-build/rollup-plugin-includepaths.git",
+    "rollup-plugin-terser": "7.0.2",
+    "sinon": "9.2.0",
+    "vinyl-source-stream": "2.0.0"
+  }
+}

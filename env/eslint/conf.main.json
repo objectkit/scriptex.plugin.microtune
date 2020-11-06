@@ -1,0 +1,33 @@
+{
+  "env": {
+    "es6": true
+  },
+  "globals": {
+    "Trace": true
+  , "GetTimingInfo": true
+  , "GetParameter": true
+  , "SetParameter": true
+  , "UpdatePluginParameters": true
+  , "SendMIDIEventNow": true
+  , "SendMIDIEventAtBeat": true
+  , "SendMIDIEventAfterBeats": true
+  , "SendMIDIEventAfterMilliseconds": true
+
+  , "ChannelPressure": true
+  , "ControlChange": true
+  , "Event": true
+  , "Note": true
+  , "NoteOn": true
+  , "NoteOff": true
+  , "PitchBend": true
+  , "PolyPressure": true
+  , "ProgramChange": true
+  , "TargetEvent": true
+
+  , "MIDI": true
+  },
+  "extends":"eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module"
+  }
+}

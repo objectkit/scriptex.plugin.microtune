@@ -1,0 +1,7 @@
+{
+  "ui": "bdd",
+  "diff": true,
+  "parallel": true,
+  "reporter": "spec",
+  "spec": "src/test/js/**/[A-Z]*Spec.js"
+}
