@@ -1,3 +1,7 @@
+import dotenv from "dotenv"
+{
+  dotenv.config({ path: `../../.env` })
+}
 import gulp from "gulp"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import multiEntry from "@rollup/plugin-multi-entry"
@@ -5,26 +9,19 @@ import includePaths from "rollup-plugin-includepaths"
 import rollup from "@rollup/stream"
 import source from "vinyl-source-stream"
 import pasteBoard from "../../rollup/plugin/pasteBoard.js"
+import printReport from "../../rollup/plugin/printReport.js"
 import { terser } from "rollup-plugin-terser"
+import path from "path"
 
 const { series, parallel, dest }= gulp
 
-/**
- * METADATA
- */
+/* metadata including build configuration */
 const {
-  npm_config_PBCOPY: PBCOPY=false
-, npm_config_MINIFY: MINIFY=true
-, npm_config_FORMAT: FORMAT=false
+  MINIFY=1, PBCOPY=0, FORMAT=0, HEADER=0, REPORT=0
 , npm_package_name: NAME
 , npm_package_version: VERSION
-, npm_package_author_name: AUTHOR_NAME
-, npm_package_author_email: AUTHOR_EMAIL
 , npm_package_license: LICENSE
 }= process.env
-
-const AUTHOR= `${AUTHOR_NAME} <${AUTHOR_EMAIL}>`
-const YEAR= (new Date().getFullYear())
 
 /**
  * Bundle the source files, ignoring main files,
@@ -35,11 +32,7 @@ async function buildSource () {
 
   const includePathsConf= { paths: [ `src/main/js` ] }
 
-  const nodeResolveConf= {
-    jsnext: true
-  , module: true
-  , extensions: [ ".js" ]
-  }
+  const nodeResolveConf= { module: true }
 
   const terserSourceConf= {
     keep_classnames: true,
@@ -63,7 +56,7 @@ async function buildSource () {
   , plugins: [
       nodeResolve(nodeResolveConf)
     , multiEntry(multiEntryConf)
-    , MINIFY && terser(terserSourceConf)
+    , +MINIFY && terser(terserSourceConf)
     ]
   }
 
@@ -90,8 +83,7 @@ async function buildPreset () {
 
   const includePathsConf= { paths: [ `src/main/js` ] }
 
-  const preamble=
-    `/** ${NAME} v${VERSION} (c) ${AUTHOR} ${YEAR} license: ${LICENSE} */`
+  const preamble= `/** ${NAME} v${VERSION} license: ${LICENSE} */`
 
   const terserPresetConf= {
     keep_classnames: false
@@ -104,8 +96,8 @@ async function buildPreset () {
       }
     }
   , output: {
-      preamble
-    , beautify: FORMAT
+      beautify: +FORMAT,
+      preamble: +HEADER ? preamble : ``
     }
   }
 
@@ -119,8 +111,9 @@ async function buildPreset () {
   , plugins: [
       nodeResolve(nodeResolveConf),
       multiEntry(multiEntryConf),
-      PBCOPY && pasteBoard(),
-      MINIFY && terser(terserPresetConf)
+      +REPORT && printReport(),
+      +PBCOPY && pasteBoard(),
+      +MINIFY && terser(terserPresetConf)
     ]
   }
 
