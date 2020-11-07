@@ -1,13 +1,13 @@
 {
   "name": "scriptex.plugin.project.template",
   "description": "A project template for building and testing Scriptex midi processors.",
+  "author": "Your Name",
+  "license": "Apache-2.0",
   "version": "0.1.0",
   "type": "module",
   "unpkg": "./out/preset.js",
   "main": "./out/source.js",
-  "exports": {
-    ".": "./out/source.js"
-  },
+  "exports": { ".": { "default": "./out/source.js" } },
   "scripts": {
     "gulp": "gulp -f env/gulp/gulpfile.js",
     "test": "mocha --config env/mocha/conf.json",
@@ -22,20 +22,6 @@
     "watch/test": "mocha --config env/mocha/watch.json || exit 0",
     "watch/main": "npm run gulp watch"
   },
-  "keywords": [
-    "scripter",
-    "scriptex",
-    "midi",
-    "logic",
-    "pro",
-    "x",
-    "mainstage",
-    "plugin",
-    "plug-in",
-    "es6"
-  ],
-  "author": "David Foley <david@objectkit.com>",
-  "license": "Apache-2.0",
   "devDependencies": {
     "@objectkit/scriptex": "^1.0.0-rc.0",
     "@objectkit/scriptex.mock": "^1.0.0-rc.0",
