@@ -20,7 +20,8 @@
     "clean": "rm -rf out doc",
     "watch": "npm run watch/test & npm run watch/main",
     "watch/test": "mocha --config env/mocha/watch.json || exit 0",
-    "watch/main": "npm run gulp watch"
+    "watch/main": "npm run gulp watch",
+    "postinstall": "[ -d ./out ] || npm t"
   },
   "devDependencies": {
     "@objectkit/scriptex": "^1.0.0-rc.0",
