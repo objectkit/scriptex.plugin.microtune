@@ -1,62 +1,68 @@
+/* PROJECT SMOKE TEST */
+
 import chai from "chai"
 import sinon from "sinon"
-import { Plugin } from "@objectkit/scriptex"
-import { VirtualScripterEnvironment, ProgramChange } from "@objectkit/scriptex.mock"
-
+import { Scriptex } from "@objectkit/scriptex"
+import { VirtualScripterEnvironment } from "@objectkit/scriptex.mock"
+/* NB. the import path of your own module is defined by package.json #name */
 import { NewPlugin } from "scriptex.plugin.project.template"
-
-const{assert}= chai
-const virtual= new VirtualScripterEnvironment(global)
-const sandbox= sinon.createSandbox()
 
 describe(`NewPlugin`, () => {
 
-  before(() => {
-    sinon.assert.expose(chai.assert, { prefix: "" });
-  })
+  const { assert }= chai
+  const sandbox= sinon.createSandbox()
+  const virtual= new VirtualScripterEnvironment(global)
 
-  beforeEach(() =>{
+  {
+    sinon.assert.expose(assert, {prefix: ``})
+  }
+
+  beforeEach( () => {
     virtual.applyEnvironment()
   })
 
-  afterEach(() => {
+  afterEach( () => {
     virtual.unapplyEnvironment()
     sandbox.restore()
   })
 
-  specify(`OK`, () => {
-
-    const PARAM_INDEX= 0
-    const PARAM_VALUE= 1
-    const PROGRAM_CHANGE= new ProgramChange()
-
-    NewPlugin.CONFIGURABLE= true
-
-    const { plugin, system, api }= virtual.deployPlugin(NewPlugin)
-    const { onMIDI, onProcess, onIdle, onReset, onParameter }= sandbox.spy(plugin)
-
-    assert.instanceOf(plugin.parameters, Array)
-    assert.strictEqual(PluginParameters, plugin.parameters)
-
-    assert.isTrue(plugin.needsTiming)
-    assert.strictEqual(NeedsTimingInfo, plugin.needsTiming)
-
-    assert.isTrue(plugin.needsDefaults)
-    assert.strictEqual(ResetParameterDefaults, plugin.needsDefaults)
-
-    HandleMIDI(PROGRAM_CHANGE)
-    assert.calledWith(onMIDI, PROGRAM_CHANGE)
-
-    ParameterChanged(PARAM_INDEX, PARAM_VALUE)
-    assert.calledWith(onParameter, PARAM_INDEX, PARAM_VALUE)
-
-    ProcessMIDI()
-    assert.calledOnce(onProcess)
-
-    Idle()
-    assert.calledOnce(onIdle)
-
-    Reset()
-    assert.calledOnce(onReset)
-  })
+  /* Iterate Scripter.API key pairs and generate specs for each */
+  for (const [scripterKey, scriptexKey] of Scriptex.API) {
+    describe(`#${scriptexKey}`, () => {
+      /* When the plugin member is a method */
+      if (`function` === typeof(NewPlugin.prototype[scriptexKey])) {
+        /* Then specify the method spec */
+        specify(`is called by Scripter.${scripterKey}`, () => {
+          const methodArgs= [0, 1]
+          /* deploy the plugin */
+          const { plugin, system }= virtual.deployPlugin(NewPlugin)
+          /* spy the plugin method */
+          const pluginMethod= sandbox.spy(plugin, scriptexKey)
+          /* a reference to the system method */
+          const systemMethod= Reflect.get(system, scripterKey, system)
+          /* confirmation */
+          assert.notCalled(pluginMethod)
+          /* invoke the system method */
+          Reflect.apply(systemMethod, system, methodArgs)
+          /* assert it called the plugin method */
+          assert.calledOnce(pluginMethod)
+          assert.calledWith(pluginMethod, ...methodArgs)
+        })
+      }
+      /* When the plugin member is not a method */
+      else {
+        /* Then specify the field spec */
+        specify(`is read by Scripter.${scripterKey}`, () => {
+          /* deploy the plugin */
+          const { plugin, system }= virtual.deployPlugin(NewPlugin)
+          /* define the value of the plugin field */
+          const pluginVal= Reflect.get(plugin, scriptexKey, plugin)
+          /* define the value of the system field */
+          const systemVal= Reflect.get(system, scripterKey, system)
+          /* assert value parity */
+          assert.strictEqual(pluginVal, systemVal)
+        })
+      }
+    })
+  }
 })
