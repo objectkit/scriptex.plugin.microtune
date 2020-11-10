@@ -1,5 +1,5 @@
 {
-  "name": "scriptex.plugin.project.template",
+  "name": "scriptex.plugin.microtuner",
   "description": "A project template for building and testing Scriptex midi processors.",
   "author": "Your Name",
   "license": "Apache-2.0",
