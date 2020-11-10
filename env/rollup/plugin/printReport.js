@@ -37,7 +37,7 @@ const printReport= () => ({
 
   ${chalk.grey(`file : out/preset.js`)}
   ${chalk.grey(`size : `)}${chalk.dim(`${kilobytes} kB`)}
-  ${chalk.grey(`data : MINIFY=${MINIFY},PBCOPY=${PBCOPY},HEADER=${HEADER},FORMAT=${FORMAT}`)}
+  ${chalk.grey(`conf : MINIFY=${MINIFY},PBCOPY=${PBCOPY},HEADER=${HEADER},FORMAT=${FORMAT}`)}
   `)
     return
   }
