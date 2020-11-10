@@ -75,7 +75,7 @@ ExamplePlugin
 
 8 passing
 ```
-## Worklow
+## Workflow
 Build the project to produce both the *`source.js`* and *`preset.js`* files.
 ```bash
 #
@@ -153,7 +153,7 @@ npm run watch
 ### Example
 - Set **PBCOPY=1** and **REPORT=1** in *`.env`*
 - Enter watch mode.
-- Open the [ExamplePlugin](src/main/js/example/ExamplePlugin) class file
+- Open the [ExamplePlugin](./src/main/js/example/ExamplePlugin.js) class file
 - Resave it to trigger a build/test cycle
 - A build report is printed to console:
 ```bash
@@ -169,11 +169,11 @@ data : MINIFY=1,PBCOPY=1,HEADER=1,FORMAT=0
 > + size is the kB size of the build file
 > + conf is the configuration of the build process
 
-Open [Scripter Code Editor](https://support.apple.com/en-gb/guide/logicpro/lgcecc16550d/mac), press **cmd+v** to paste from the system pasteboard, then press `Run Script` to run your plugin.
+Open [Scripter Code Editor](https://support.apple.com/en-gb/guide/logicpro/lgcecc16550d/mac), press **command+v** to paste from the system pasteboard, then press `Run Script` to run your plugin.
 
 ## Project Customisation.
 - Change the [package name](./package.json) to redefine the import path to `out/source.js`.
-> The default package name of `scriptex.plugin.project.template` is intentionally gnarly. See how [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) imports [ExamplePlugin](./src/main/js/example/ExamplePlugin) by this path for point of reference.
+> The default package name of `scriptex.plugin.project.template` is intentionally gnarly. See how [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) imports [ExamplePlugin](./src/main/js/example/ExamplePlugin.js) by this path for point of reference.
 - Delete example source files and prior builds with this command.
 ```bash
 rm -rf out doc src/main/js/example src/test/js/example
