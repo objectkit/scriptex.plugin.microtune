@@ -4,7 +4,7 @@
 
 This is a project template with a bespoke build tool for developing midi processors with the [@objectkit/scriptex](https://github.com/objectkit/scriptex) and [@objectkit/scriptex.mock](https://github.com/objectkit/scriptex.mock) libraries.
 
-Check the [main.js](./src/main/js/example/main.js) entry file, the [NewPlugin](./src/main/js/example/NewPlugin.js) class, and the corresponding [NewPluginSpec](./src/test/js/example/NewPluginSpec.js) to see the relationships between these example files.
+Check the [main.js](./src/main/js/example/main.js) entry file, the [ExamplePlugin](./src/main/js/example/ExamplePlugin.js) class, and the corresponding [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) to see the relationships between these example files.
 
 <!-- The project structure is inspired by the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html). -->
 
@@ -19,11 +19,11 @@ Check the [main.js](./src/main/js/example/main.js) entry file, the [NewPlugin](.
         │   └── js                             
         │       └── example                           
         │           ├── main.js               #   - An example plugin entry file        
-        │           └── NewPlugin.js          #   - An example plugin class
+        │           └── ExamplePlugin.js          #   - An example plugin class
         └── test                              #   - Test files related to testing that plugin
             └── js                             
                 └── example                    
-                    └── NewPluginSpec.js      #   - An example plugin spec
+                    └── ExamplePluginSpec.js      #   - An example plugin spec
 
 ## Requirements
 Use [Terminal](https://support.apple.com/en-gb/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac) to ensure that [Git](https://github.com/git-guides/install-git#install-git-from-homebrew) and [NodeJS](https://nodejs.dev/learn/how-to-install-nodejs) are installed on your system before running [setup](#setup).
@@ -53,7 +53,7 @@ git clone https://github.com/objectkit/scriptex.plugin.project.template.git newp
 ```
 Read the test results printed during installation.
 ```bash
-  NewPlugin
+  ExamplePlugin
     #needsTiming
       ✓ is read by Scripter.NeedsTimingInfo
     #needsDefaults
@@ -180,7 +180,7 @@ _Before..._
 }
 ```
 ```js
-import { NewPlugin } from "scriptex.plugin.project.template"
+import { ExamplePlugin } from "scriptex.plugin.project.template"
 ```
 _After..._
 ```json
@@ -190,7 +190,7 @@ _After..._
 }
 ```
 ```js
-import { NewPlugin } from "newplugin"
+import { ExamplePlugin } from "newplugin"
 ```
 ### Managing clean initialisation of the project.
 All three files exist for example only and can be deleted with the following command:
