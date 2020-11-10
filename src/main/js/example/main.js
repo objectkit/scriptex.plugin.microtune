@@ -16,15 +16,15 @@
  * - give the plugin its own class file and import it back here when ready
  */
 import { Scripter } from "@objectkit/scriptex"
-import { NewPlugin } from "./NewPlugin"
+import { ExamplePlugin } from "./ExamplePlugin"
 
 /* deploy the plugin */
-const bindings= NewPlugin.deploy()
+const bindings= ExamplePlugin.deploy()
 
 /**
  * Trace an intro banner:
  *
- *    NewPlugin is fully integrated with the Scripter API:
+ *    ExamplePlugin is fully integrated with the Scripter API:
  *
  *    NeedsTimingInfo
  *    ResetParameterDefaults
@@ -36,6 +36,6 @@ const bindings= NewPlugin.deploy()
  *    Idle
  */
 Scripter.Trace(`
-  NewPlugin is fully integrated with the Scripter API:
+  ExamplePlugin is fully integrated with the Scripter API:
 
   ${bindings.join(`\n  `)}`)

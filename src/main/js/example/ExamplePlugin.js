@@ -6,7 +6,7 @@ import { Plugin } from "@objectkit/scriptex"
  * It manifests the full Scriptex interface and should pass all tests.
  * 
  * @example <caption>Test Results</caption>
- *   NewPlugin
+ *   ExamplePlugin
  *     #needsTiming
  *       is read by Scripter.NeedsTimingInfo
  *     #needsDefaults
@@ -29,7 +29,7 @@ import { Plugin } from "@objectkit/scriptex"
  * @see [main.js]{@link src/main/js/example/main.js}
  * @see [NewPluginSpec]{@link src/test/js/example/NewPluginSpec.js}
  */
-class NewPlugin extends Plugin {
+class ExamplePlugin extends Plugin {
   /** @lends Scripter.NeedsTimingInfo */
   get needsTiming () { return true }
   /** @lends Scripter.ResetParameterDefaults */
@@ -48,4 +48,4 @@ class NewPlugin extends Plugin {
   onReset () {}
 }
 
-export { NewPlugin }
+export { ExamplePlugin }
