@@ -7,7 +7,11 @@
   "type": "module",
   "unpkg": "./out/preset.js",
   "main": "./out/source.js",
-  "exports": { ".": { "default": "./out/source.js" } },
+  "exports": {
+    ".": {
+      "default": "./out/source.js"
+    }
+  },
   "scripts": {
     "gulp": "gulp -f env/gulp/gulpfile.js",
     "test": "mocha --config env/mocha/conf.json",
