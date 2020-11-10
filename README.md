@@ -2,28 +2,30 @@
 ###### 1.0.0-rc DRAFT
 > Develop, test and publish MIDI processors for the Scripter MIDI FX Plugin from your IDE
 
-This is a project template with a bespoke build tool for developing midi processors with the [@objectkit/scriptex](https://github.com/objectkit/scriptex) and [@objectkit/scriptex.mock](https://github.com/objectkit/scriptex.mock) libraries.
-
-Check the [main.js](./src/main/js/example/main.js) entry file, the [ExamplePlugin](./src/main/js/example/ExamplePlugin.js) class, and the corresponding [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) to see the relationships between these example files.
+```bash
+.
+├── doc                                     # Optional project documentation.
+├── env                                     # Tooling and configuration.
+├── out                                     # Compiled files produced by build process.
+│   ├── preset.js                           # - suitable for running in Scripter Code Editor.
+│   └── source.js                           # - suitable for testing on Node.
+├── src                                     # Source files.
+│   ├── main                                # Main files related soley to the plugin.
+│   │   └── js                              #
+│   │       └── example                     #      
+│   │           ├── main.js                 # - An example plugin entry file.
+│   │           └── ExamplePlugin.js        # - An example plugin class.
+│   └── test                                # Test files related soley to testing the plugin.
+│       └── js                              #
+│           └── example                     #
+│               └── ExamplePluginSpec.js    # - An example plugin spec.
+└── .env                                    # - An optional build configuration override file.
+```
+This is a project template with a bespoke build tool for developing Scripter MIDI processors with the [@objectkit/scriptex](https://github.com/objectkit/scriptex) and [@objectkit/scriptex.mock](https://github.com/objectkit/scriptex.mock) libraries.
 
 <!-- The project structure is inspired by the [Maven Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html). -->
 
-    .
-    ├── doc                                   #   Project documentation
-    ├── env                                   #   Tooling, configuration, utilities.
-    ├── out                                   #   Compiled files produced by build process
-    │   ├── preset.js                         #   - suitable for running in Scripter Code Editor
-    │   └── source.js                         #   - suitable for testing on Node
-    └── src                                   #   Source files
-        ├── main                              #   - Main files related to developing a plugin
-        │   └── js                             
-        │       └── example                           
-        │           ├── main.js               #   - An example plugin entry file        
-        │           └── ExamplePlugin.js          #   - An example plugin class
-        └── test                              #   - Test files related to testing that plugin
-            └── js                             
-                └── example                    
-                    └── ExamplePluginSpec.js      #   - An example plugin spec
+Check the [main.js](./src/main/js/example/main.js) entry file, the [ExamplePlugin](./src/main/js/example/ExamplePlugin.js) class, and the corresponding [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) to understand the relationships between plugin files or [initialise the project](#project-customisation) for a clean start.
 
 ## Requirements
 Use [Terminal](https://support.apple.com/en-gb/guide/terminal/apd5265185d-f365-44cb-8b09-71a064a42125/mac) to ensure that [Git](https://github.com/git-guides/install-git#install-git-from-homebrew) and [NodeJS](https://nodejs.dev/learn/how-to-install-nodejs) are installed on your system before running [setup](#setup).
@@ -51,94 +53,44 @@ Clone this repo and install the project to your local system.
 #   
 git clone https://github.com/objectkit/scriptex.plugin.project.template.git newplugin && cd $_ && npm i
 ```
-Read the test results printed during installation.
-```bash
-  ExamplePlugin
-    #needsTiming
-      ✓ is read by Scripter.NeedsTimingInfo
-    #needsDefaults
-      ✓ is read by Scripter.ResetParameterDefaults
-    #parameters
-      ✓ is read by Scripter.PluginParameters
-    #onMIDI
-      ✓ is called by Scripter.HandleMIDI
-    #onProcess
-      ✓ is called by Scripter.ProcessMIDI
-    #onParameter
-      ✓ is called by Scripter.ParameterChanged
-    #onReset
-      ✓ is called by Scripter.Reset
-    #onIdle
-      ✓ is called by Scripter.Idle
+Automatic [tests](src/test/js/example/ExamplePluginSpec.js) should pass.
+```spec
+ExamplePlugin
+  #needsTiming
+    ✓ is read by Scripter.NeedsTimingInfo
+  #needsDefaults
+    ✓ is read by Scripter.ResetParameterDefaults
+  #parameters
+    ✓ is read by Scripter.PluginParameters
+  #onMIDI
+    ✓ is called by Scripter.HandleMIDI
+  #onProcess
+    ✓ is called by Scripter.ProcessMIDI
+  #onParameter
+    ✓ is called by Scripter.ParameterChanged
+  #onReset
+    ✓ is called by Scripter.Reset
+  #onIdle
+    ✓ is called by Scripter.Idle
 
 8 passing
 ```
-Build the project to produce both the `source.js` and `preset.js` files:
+## Worklow
+Build the project to produce both the *`source.js`* and *`preset.js`* files.
 ```bash
 #
-# The build process produces two files in the 'out' directory
+# The build process produces two files in the 'out' directory.
 #   .
 #   out                                   
 #     ├── preset.js
 #     └── source.js
-#
-# The source.js file is a library module suitable for testing on Node
-# The preset.js file is a global script suitable for running in Scripter
+#     
+# The preset.js file is a global script suitable for running in Scripter.
+# The source.js file is a library module that excludes main.js that is suitable for testing on Node.
 #  
 npm run build
 ```
-
-Customise the build process with a new file named `.env` in the project root.
-```bash
-#
-# Configure the buildPreset process
-# @see env/gulp/task/build.js#buildPreset
-#
-
-# toggle minification (default: on)
-MINIFY=1
-# toggle the copy to pasteboard feature (default: off)
-PBCOPY=1
-# toggle reporting (default: off)
-REPORT=1
-# toggle header comment (default: off)
-HEADER=0
-# toggle pretty print (default: off)
-FORMAT=0
-```
-<!-- this should ne build -->
-Build the project again:
-```bash
-npm run build
-```
-The newly available build report demonstrates that the "copy to pasteboard" feature ("PBCOPY") has been activated:
-```bash
-       ✓ scriptex.plugin.project.template v0.1.0
-
-  file : out/preset.js
-  size : 1.21 kB
-  meta : MINIFY=1
-       : PBCOPY=1
-       : HEADER=0
-       : FORMAT=0
-
-```
-Try this by putting [Scripter Code Editor](https://support.apple.com/en-gb/guide/logicpro/lgcecc16550d/mac) into focus and pressing `cmd+v`. The contents of `out/preset.js` should be pasted directly there without need to manually locate, open, select and copy the file contents.
-
-## Scripts
-###### watch
-```bash
-#
-# Changes to files in src/main and src/test will trigger build and test cycles.
-#
-# Force quit watch with control+C or command+:
-#   https://support.apple.com/en-gb/guide/terminal/trmlshtcts/mac#trmla9087c1b
-#   
-# NB the "watch/main" and "watch/test" scripts are also available in package.json
-#
-npm run watch
-```
-###### doc
+Build docs to [produce documentation](https://jsdoc.app).
 ```bash
 #
 # Use the doc script to produce documentation from source files
@@ -147,76 +99,89 @@ npm run watch
 #
 npm run doc
 ```
-###### clean
-```bash
-#
-# Delete build files and directories (out and doc)
-#
-npm run clean
-```
-###### build
-```bash
-#
-# Build the projects source.js and preset.js files
-#
-npm run build
-```
-###### test
+Run tests manually.
 ```bash
 #
 # Run the project tests
 #
 npm run test
 ```
-## Customisation
-### Project Name and Import Paths
-Change the [package name](./package.json) to define the import path to `out/source.js`.
+Clean build files to remove clutter
+```bash
+#
+# Delete build files and directories (out and doc)
+#
+npm run clean
+```
+Manage the build configuration.
+```bash
+#
+# Add this content to a file named .env in the project root.
+# Change settings to configure the buildPreset process.
+# @see env/gulp/task/build.js#buildPreset
+#
+# toggle minification (default: 1)
+MINIFY=1
+# toggle the copy to pasteboard feature (default: 0)
+PBCOPY=0
+# toggle reporting (default: 0)
+REPORT=0
+# toggle header comment (default: 0)
+HEADER=0
+# toggle pretty print of minified files only (default: 0)
+FORMAT=0
+```
 
-_Before..._
-```json
-{
-  "name": "scriptex.plugin.project.template",
-  ...
-}
-```
-```js
-import { ExamplePlugin } from "scriptex.plugin.project.template"
-```
-_After..._
-```json
-{
-  "name": "newplugin",
-  ...
-}
-```
-```js
-import { ExamplePlugin } from "newplugin"
-```
-### Managing clean initialisation of the project.
-All three files exist for example only and can be deleted with the following command:
+> + When REPORT is activated, build reports are printed to console.
+> + When MINIFY is activated, build scripts are minified. Turn this off to investigate build file characteristics.
+> + When PBCOPY is activated there is no need to manually locate, open, select and copy the file contents; the build tool does this for you automatically in the background.
+> + When HEADER is activated the build file is given a header comment derived from package metadata.
+> + When FORMAT is activated the minified build file is pretty printed as a debug aid
+
+Automate build/test cycles with watch mode.
 ```bash
-rm -rf src/main/js/example src/test/js/example
+#
+# Changes to files in src/main will trigger build and test cycles.
+#
+# Force quit watch with control+C or command+:
+#   https://support.apple.com/en-gb/guide/terminal/trmlshtcts/mac#trmla9087c1b
+#   
+# NB the "watch/main" and "watch/test" scripts are also available in package.json
+#
+npm run watch
 ```
-**NOTE**:
-You will recieve warnings when you build the project without a build target (i.e. `main.js`)
-```bash
-Generated an empty chunk: "_virtual:multi-entry"
-```
-**NOTE**:
-When build reporting is enabled, then you will also see this warning:
+### Example
+- Set **PBCOPY=1** and **REPORT=1** in *`.env`*
+- Enter watch mode.
+- Open the [ExamplePlugin](src/main/js/example/ExamplePlugin) class file
+- Resave it to trigger a build/test cycle
+- A build report is printed to console:
 ```bash
 
-       ✓ scriptex.plugin.project.template v0.1.0
+     ✓ scriptex.plugin.project.template v0.1.0
 
-  file : out/preset.js
-  size : 0.00 kB
-  meta : MINIFY=1
-       : PBCOPY=1
-       : HEADER=0
-       : FORMAT=0
+file : out/preset.js
+size : 1.26 kB
+data : MINIFY=1,PBCOPY=1,HEADER=1,FORMAT=0
 ```
-**NOTE**:
-You will recieve errors when you run tests but no test files are defined:
+> + Plugin name and version are read from package.json
+> + file is the path to the build file
+> + size is the kB size of the build file
+> + conf is the configuration of the build process
+
+Open [Scripter Code Editor](https://support.apple.com/en-gb/guide/logicpro/lgcecc16550d/mac), press **cmd+v** to paste from the system pasteboard, then press `Run Script` to run your plugin.
+
+## Project Customisation.
+- Change the [package name](./package.json) to redefine the import path to `out/source.js`.
+> The default package name of `scriptex.plugin.project.template` is intentionally gnarly. See how [ExamplePluginSpec](./src/test/js/example/ExamplePluginSpec.js) imports [ExamplePlugin](./src/main/js/example/ExamplePlugin) by this path for point of reference.
+- Delete example source files and prior builds with this command.
 ```bash
-Error: No test files found: "src/test/js/**/[A-Z]*Spec.js"
+rm -rf out doc src/main/js/example src/test/js/example
 ```
+> Avoid avoid "Generated an empty chunk" warnings by adding a build target named `main.js` anywhere beneath `src/main/js`
+
+> Avoid "No test files found" errors by adding specs anywhere beneath `src/test/js`!
+
+---
+
+- [x] [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/paypalme/objectkit)
