@@ -1,10 +1,17 @@
-import childProcess from "child_process"
-import dotenv from "dotenv"
 import chalk from "chalk"
 
 /**
- * A utility build plugin that prints build reports to the console.
+ * A build reporter for the buildPreset process.
  *
+ * @example
+ *
+ *         ✓ scriptex.plugin.project.template v0.1.0
+ *
+ *    file : out/preset.js
+ *    size : 1.26 kB
+ *    data : MINIFY=1,PBCOPY=0,HEADER=0,FORMAT=0
+ *
+ * @see [buildPreset]{@link env/gulp/task/build.js}
  */
 const printReport= () => ({
 
@@ -26,14 +33,11 @@ const printReport= () => ({
     const pbcopyOn= +PBCOPY ? `green` : `grey`
 
     console.info(`
-  ${chalk[pbcopyOn]("     ✓")} ${chalk.white(`${NAME} v${VERSION}`)}
+  ${chalk[pbcopyOn]("     ✓")} ${chalk.white(`${NAME}`)}${chalk.dim(` v${VERSION}`)}
 
   ${chalk.grey(`file : out/preset.js`)}
   ${chalk.grey(`size : `)}${chalk.dim(`${kilobytes} kB`)}
-  ${chalk.grey(`meta : MINIFY=${MINIFY}`)}
-  ${chalk.grey(`     : PBCOPY=${PBCOPY}`)}
-  ${chalk.grey(`     : HEADER=${HEADER}`)}
-  ${chalk.grey(`     : FORMAT=${FORMAT}`)}
+  ${chalk.grey(`data : MINIFY=${MINIFY},PBCOPY=${PBCOPY},HEADER=${HEADER},FORMAT=${FORMAT}`)}
   `)
     return
   }
