@@ -49,7 +49,7 @@ async function buildSource () {
   }
 
   const buildSourceConf= {
-    input: "src/main/js/**/[A-Z][!(main)]*.js"
+    input: "src/main/js/**/[A-Z]*.js"
   , output: {
       format: "es"
     }
